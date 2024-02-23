@@ -14,16 +14,13 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 # Check if the virtual environment already exists
-                if [ ! -d "mlip" ]; then
-                    echo 'Creating a virtual environment.'
-                    python3 -m venv mlip
-                    source mlip/bin/activate
-                    echo 'Installing dependencies.'
-                    pip install -r requirements.txt
-                else
-                    echo 'Using existing virtual environment.'
-                    source mlip/bin/activate
-                fi
+                
+                echo 'Creating a virtual environment.'
+                python3 -m venv mlip
+                source mlip/bin/activate
+                echo 'Installing dependencies.'
+                pip install -r requirements.txt
+                
 
                 # Run pytest
                 pytest
