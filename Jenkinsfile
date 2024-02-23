@@ -24,6 +24,7 @@ pipeline {
                     echo 'Conda environment mlip already exists.'
                 fi
                 
+                
                 # Activate the Conda environment
                 source activate mlip
 
