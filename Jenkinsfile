@@ -25,6 +25,8 @@ pipeline {
 
                 pip install pandas
 
+                pip install requests
+
                 pip install scikit-learn
 
                 # Run pytest
