@@ -14,27 +14,20 @@ pipeline {
             steps {
                 sh '''#!/bin/bash
                 echo 'Test Step: We run testing tool like pytest here.'
+                # Initialize Conda
+                sudo /home/team03/miniconda3/condabin/conda init
 
-                # Activate the Python virtual environment
-                # Ensure to replace <path_to_mlip> with the actual path to your mlip virtual environment directory
-                python3 -m venv mlip
-                source mlip/bin/activate
+                # Create a new Conda environment named myenv
+                sudo /home/team03/miniconda3/condabin/conda create -n myenv python=3.8 pytest numpy pandas scikit-learn -c conda-forge -y
 
-                pip install pytest
+                # Activate the Conda environment
+                sudo /home/team03/miniconda3/condabin/conda activate myenv
 
-                pip install numpy
+                # Run pytest within the environment
+                pytest
 
-                pip install pandas
+                # Note: 'sudo' is generally not recommended for activating environments or running user-space tools like pytest. It should only be used if absolutely necessary for permissions reasons, and with great care.
 
-                pip install requests
-
-                pip install scikit-learn
-
-                # Run pytest
-                pytest test_utility.py
-
-                # Deactivate the virtual environment
-                deactivate
 
                 # Note: Jenkins will mark the build as failed if any command returns a non-zero exit code
                 '''
