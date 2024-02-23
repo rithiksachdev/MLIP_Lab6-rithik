@@ -23,7 +23,7 @@ pipeline {
 
                 pip install numpy
 
-                pip intall pandas
+                pip install pandas
 
                 pip install scikit-learn
 
