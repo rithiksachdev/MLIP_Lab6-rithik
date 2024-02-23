@@ -13,29 +13,23 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''#!/bin/bash
-                echo 'Test Step: We run testing tool like pytest here.'
-
-                # Activate the Python virtual environment
-                # Ensure to replace <path_to_mlip> with the actual path to your mlip virtual environment directory
-                source mlip/bin/activate
-
-                pip install pytest
-
-                pip install numpy
-
-                pip install pandas
-
-                pip install requests
-
-                pip install scikit-learn
+                # Check if the virtual environment already exists
+                if [ ! -d "mlip" ]; then
+                    echo 'Creating a virtual environment.'
+                    python3 -m venv mlip
+                    source mlip/bin/activate
+                    echo 'Installing dependencies.'
+                    pip install -r requirements.txt
+                else
+                    echo 'Using existing virtual environment.'
+                    source mlip/bin/activate
+                fi
 
                 # Run pytest
                 pytest
 
                 # Deactivate the virtual environment
                 deactivate
-
-                # Note: Jenkins will mark the build as failed if any command returns a non-zero exit code
                 '''
             }
         }
