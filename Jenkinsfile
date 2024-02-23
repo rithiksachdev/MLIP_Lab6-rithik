@@ -13,32 +13,27 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''#!/bin/bash
-                echo 'Test Step: We run testing tool like pytest here.'
-
-                # Assuming Miniconda is installed and the conda command is available
-                # Check if the mlip environment exists
-                if ! conda info --envs | grep mlip; then
-                    echo 'Creating a new Conda environment named mlip.'
-                    conda create -n mlip python=3.8 pytest numpy pandas scikit-learn -c conda-forge -y
+                # Check if the virtual environment already exists
+                if [ ! -d "mlip" ]; then
+                    echo 'Creating a virtual environment.'
+                    python3 -m venv mlip
+                    source mlip/bin/activate
+                    echo 'Installing dependencies.'
+                    pip install -r requirements.txt
                 else
-                    echo 'Conda environment mlip already exists.'
+                    echo 'Using existing virtual environment.'
+                    source mlip/bin/activate
                 fi
-                
-                
-                # Activate the Conda environment
-                source activate mlip
-
-                # The required packages are already installed during the environment creation
-                # If you need to install any additional packages, you can do so with conda install or pip install commands here
 
                 # Run pytest
                 pytest
 
-                # Note: No need to explicitly deactivate in a script, as each step runs in a new shell
+                # Deactivate the virtual environment
+                deactivate
                 '''
-
             }
         }
+
         stage('Deploy') {
             steps {
                 echo 'In this step, we deploy our project.'
