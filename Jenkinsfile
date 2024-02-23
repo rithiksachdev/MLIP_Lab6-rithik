@@ -19,6 +19,14 @@ pipeline {
                 # Ensure to replace <path_to_mlip> with the actual path to your mlip virtual environment directory
                 source mlip/bin/activate
 
+                pip install pytest
+
+                pip install numpy
+
+                pip intall pandas
+
+                pip install scikit-learn
+
                 # Run pytest
                 pytest
 
