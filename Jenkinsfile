@@ -15,24 +15,18 @@ pipeline {
                 sh '''#!/bin/bash
                 echo 'Test Step: We run testing tool like pytest here.'
 
-                # Assuming Conda is installed and the path is known
-                # Replace /path/to/conda with the actual path to your Conda executable
-                export PATH=/path/to/conda/bin:$PATH
-                
-                # Initialize Conda in bash script
-                eval "$(conda shell.bash hook)"
+                # Activate the Python virtual environment
+                # Ensure to replace <path_to_mlip> with the actual path to your mlip virtual environment directory
+                source mlip/bin/activate
 
-                # Activate the Conda environment
-                conda activate <Environment_Name>
+                # Run pytest
+                pytest
 
-                # Run pytest or any other command you wish to run in your Conda environment
-                # If pytest is not installed, ensure to install it within the environment first
-                pytest <Additional_Commands_If_Any>
+                # Deactivate the virtual environment
+                deactivate
 
-                # Note: No need to explicitly use `sudo` or `exit 1` here
-                # Jenkins will mark the build as failed if any command returns a non-zero exit code
+                # Note: Jenkins will mark the build as failed if any command returns a non-zero exit code
                 '''
-
             }
         }
         stage('Deploy') {
